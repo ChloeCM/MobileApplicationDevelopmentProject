@@ -13,8 +13,6 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MyDataService } from '../services/my-data.service';
-import { MyHttpService } from '../services/my-http.service';
-import { HttpOptions } from '@capacitor/core';
 
 @Component({
   selector: 'app-home',
@@ -38,20 +36,8 @@ import { HttpOptions } from '@capacitor/core';
 export class HomePage {
   countryToDisplay: string = '';
   newCountry: string = '';
-  options: HttpOptions = {
-    url: 'https://restcountries.com/v3.1/name/{name}',
-  };
 
-  constructor(private mds: MyDataService, private mhs: MyHttpService) {}
-
-  ngOnInit() {
-    this.getCountries();
-  }
-
-  async getCountries() {
-    let result = await this.mhs.get(this.options);
-    console.log(result);
-  }
+  constructor(private mds: MyDataService) {}
 
   ionViewWillEnter() {
     this.getCountryFromStorage();
@@ -64,6 +50,5 @@ export class HomePage {
 
   async setCountry() {
     await this.mds.set('country', this.newCountry);
-    this.countryToDisplay = this.newCountry;
   }
 }

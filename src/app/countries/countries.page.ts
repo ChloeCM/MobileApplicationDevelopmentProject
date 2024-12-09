@@ -6,8 +6,16 @@ import {
   IonHeader,
   IonTitle,
   IonToolbar,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardSubtitle,
+  IonCardContent,
+  IonButton,
 } from '@ionic/angular/standalone';
 import { MyDataService } from '../services/my-data.service';
+import { MyHttpService } from '../services/my-http.service';
+import { HttpOptions } from '@capacitor/core';
 
 @Component({
   selector: 'app-countries',
@@ -21,24 +29,43 @@ import { MyDataService } from '../services/my-data.service';
     IonToolbar,
     CommonModule,
     FormsModule,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardSubtitle,
+    IonCardContent,
+    IonButton,
   ],
 })
 export class CountriesPage implements OnInit {
-  country: string = '';
+  selectedCountry: string = '';
   newUrl: string = '';
+  countryData: any;
+  options: HttpOptions = {
+    url: 'https://restcountries.com/v3.1/name/',
+  };
 
-  constructor(private mds: MyDataService) {}
+  constructor(private mds: MyDataService, private mhs: MyHttpService) {}
 
   async ngOnInit() {
-    await this.getCountry();
-    this.setUrl(this.country);
+    await this.loadSelectedCountry();
+    this.updateNewUrl(this.selectedCountry);
+    this.countryData = [];
+    this.getCountries();
   }
 
-  async getCountry() {
-    this.country = await this.mds.get('country');
+  async loadSelectedCountry() {
+    this.selectedCountry = await this.mds.get('country');
   }
 
-  setUrl(country: string) {
-    this.newUrl = 'https://restcountries.com/v3.1/name/' + this.country;
+  updateNewUrl(country: string) {
+    this.newUrl = this.options.url + this.selectedCountry;
+    this.options.url = this.newUrl;
+  }
+
+  async getCountries() {
+    let result = await this.mhs.get(this.options);
+    this.countryData = result.data;
+    console.log('Country data: ', this.countryData);
   }
 }
