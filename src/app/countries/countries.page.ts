@@ -51,59 +51,15 @@ export class CountriesPage implements OnInit {
 
   constructor(private mds: MyDataService, private mhs: MyHttpService) {}
 
-  async ngOnInit() {
-    await this.loadSelectedCountry();
-
-    if (this.selectedCountry) {
-      this.updateNewUrl(this.selectedCountry);
-      await this.getCountries();
-    } else {
-      console.log('No country in local Storage');
-    }
-
-    // this.updateNewUrl(this.selectedCountry);
-    // this.countryData = [];
-    // this.getCountries();
+  ngOnInit() {
+    this.getCountry();
   }
 
-  async loadSelectedCountry() {
+  async getCountry() {
     this.selectedCountry = await this.mds.get('country');
-
-    if (this.selectedCountry) {
-      console.log('COuntry loaded from storage: ', this.selectedCountry);
-    } else {
-      console.log('NO COuntry in HEREEEE!!!');
-    }
-    //console.log('Country is set to: ', this.selectedCountry);
-  }
-
-  updateNewUrl(country: string) {
-    if (country) {
-      this.newUrl = `${this.options.url}${country}`;
-      this.options.url = this.newUrl;
-      console.log('Updated API URL: ', this.newUrl);
-    } else {
-      console.log('Cannot update URL. No country provided.');
-    }
-    // this.newUrl = this.options.url + this.selectedCountry;
-    // this.options.url = this.newUrl;
-  }
-
-  async getCountries() {
-    if (this.newUrl) {
-      try {
-        const result = await this.mhs.get(this.options);
-        this.countryData = result.data;
-        console.log('Country data fetched: ', this.countryData);
-      } catch (error) {
-        console.error('Error fetching country data: ', error);
-      }
-    } else {
-      console.log('No URL set for fetching country data.');
-    }
-
-    // let result = await this.mhs.get(this.options);
-    // this.countryData = result.data;
-    // console.log('Country data: ', this.countryData);
+    this.options.url = this.options.url.concat(this.selectedCountry);
+    let result = await this.mhs.get(this.options);
+    this.countryData = result.data;
+    console.log(JSON.stringify(this.countryData));
   }
 }
