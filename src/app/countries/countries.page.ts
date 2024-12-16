@@ -18,6 +18,7 @@ import { MyDataService } from '../services/my-data.service';
 import { MyHttpService } from '../services/my-http.service';
 import { HttpOptions } from '@capacitor/core';
 import { RouterLink } from '@angular/router';
+import { count } from 'rxjs';
 
 @Component({
   selector: 'app-countries',
@@ -61,5 +62,11 @@ export class CountriesPage implements OnInit {
     let result = await this.mhs.get(this.options);
     this.countryData = result.data;
     console.log(JSON.stringify(this.countryData));
+  }
+
+  async newsPage(country: any) {
+    console.log(country.cca2);
+    await this.mds.set('cca2', country.cca2);
+    console.log(this.mds.get('cca2'));
   }
 }

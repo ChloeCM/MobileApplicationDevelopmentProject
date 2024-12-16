@@ -12,7 +12,12 @@
     </ion-card-header>
 
     <ion-card-content>
-      <ion-button [routerLink]="['/news']" expand="block">News</ion-button>
+      <ion-button
+        (click)="newsPage(country)"
+        [routerLink]="['/news']"
+        expand="block"
+        >News</ion-button
+      >
       <ion-button [routerLink]="['/weather']" expand="block"
         >Weather</ion-button
       >

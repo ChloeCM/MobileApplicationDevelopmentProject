@@ -1,21 +1,16 @@
-<!-- <ion-header [translucent]="true">
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>News for {{ selectedCountry }}</ion-title>
+    <ion-title>News for Country</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card *ngFor="let country of countryData">
-    <img src="{{ country.flags.png }}" />
+  <ion-card *ngFor="let news of newsData">
+    <img src="{{ news.image_url}}" />
     <ion-card-header>
-      <ion-card-title>{{ country.name.official }}</ion-card-title>
+      <ion-card-title>{{ news.title }}</ion-card-title>
     </ion-card-header>
 
-    <ion-card-content>
-      <ion-button [routerLink]="['/news']" expand="block">News</ion-button>
-      <ion-button [routerLink]="['/weather']" expand="block"
-        >Weather</ion-button
-      >
-    </ion-card-content>
+    <ion-card-content> {{ news.description }} </ion-card-content>
   </ion-card>
-</ion-content> -->
+</ion-content>
