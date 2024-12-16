@@ -9,12 +9,13 @@
     <img src="{{ country.flags.png }}" />
     <ion-card-header>
       <ion-card-title>{{ country.name.official }}</ion-card-title>
-      <ion-card-subtitle>{{ country.about }}</ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
-      <ion-button expand="block">News</ion-button>
-      <ion-button expand="block">Weather</ion-button>
+      <ion-button [routerLink]="['/news']" expand="block">News</ion-button>
+      <ion-button [routerLink]="['/weather']" expand="block"
+        >Weather</ion-button
+      >
     </ion-card-content>
   </ion-card>
 </ion-content>

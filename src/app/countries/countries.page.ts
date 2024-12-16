@@ -12,10 +12,12 @@ import {
   IonCardSubtitle,
   IonCardContent,
   IonButton,
+  IonInput,
 } from '@ionic/angular/standalone';
 import { MyDataService } from '../services/my-data.service';
 import { MyHttpService } from '../services/my-http.service';
 import { HttpOptions } from '@capacitor/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-countries',
@@ -35,6 +37,8 @@ import { HttpOptions } from '@capacitor/core';
     IonCardSubtitle,
     IonCardContent,
     IonButton,
+    RouterLink,
+    IonInput,
   ],
 })
 export class CountriesPage implements OnInit {
@@ -49,23 +53,57 @@ export class CountriesPage implements OnInit {
 
   async ngOnInit() {
     await this.loadSelectedCountry();
-    this.updateNewUrl(this.selectedCountry);
-    this.countryData = [];
-    this.getCountries();
+
+    if (this.selectedCountry) {
+      this.updateNewUrl(this.selectedCountry);
+      await this.getCountries();
+    } else {
+      console.log('No country in local Storage');
+    }
+
+    // this.updateNewUrl(this.selectedCountry);
+    // this.countryData = [];
+    // this.getCountries();
   }
 
   async loadSelectedCountry() {
     this.selectedCountry = await this.mds.get('country');
+
+    if (this.selectedCountry) {
+      console.log('COuntry loaded from storage: ', this.selectedCountry);
+    } else {
+      console.log('NO COuntry in HEREEEE!!!');
+    }
+    //console.log('Country is set to: ', this.selectedCountry);
   }
 
   updateNewUrl(country: string) {
-    this.newUrl = this.options.url + this.selectedCountry;
-    this.options.url = this.newUrl;
+    if (country) {
+      this.newUrl = `${this.options.url}${country}`;
+      this.options.url = this.newUrl;
+      console.log('Updated API URL: ', this.newUrl);
+    } else {
+      console.log('Cannot update URL. No country provided.');
+    }
+    // this.newUrl = this.options.url + this.selectedCountry;
+    // this.options.url = this.newUrl;
   }
 
   async getCountries() {
-    let result = await this.mhs.get(this.options);
-    this.countryData = result.data;
-    console.log('Country data: ', this.countryData);
+    if (this.newUrl) {
+      try {
+        const result = await this.mhs.get(this.options);
+        this.countryData = result.data;
+        console.log('Country data fetched: ', this.countryData);
+      } catch (error) {
+        console.error('Error fetching country data: ', error);
+      }
+    } else {
+      console.log('No URL set for fetching country data.');
+    }
+
+    // let result = await this.mhs.get(this.options);
+    // this.countryData = result.data;
+    // console.log('Country data: ', this.countryData);
   }
 }

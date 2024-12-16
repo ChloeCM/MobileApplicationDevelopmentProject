@@ -10,14 +10,13 @@ export class MyDataService {
   }
 
   async init() {
-    this.storage = await this.storage.create();
+    const storage = await this.storage.create();
   }
 
-  //This sets in Storage
   async set(key: string, value: any) {
     await this.storage.set(key, value);
   }
-
+  //
   async get(key: string) {
     return await this.storage.get(key);
   }

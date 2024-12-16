@@ -9,13 +9,11 @@
   </ion-toolbar>
 </ion-header>
 
+<
 <ion-content [fullscreen]="true">
-  <input [(ngModel)]="newCountry" placeholder="Enter Country" />
+  <ion-item>
+    <ion-input [(ngModel)]="newCountry" placeholder="Enter Country"></ion-input>
+  </ion-item>
   <hr />
-  <ion-button
-    [routerLink]="['/countries']"
-    (click)="setCountry()"
-    expand="block"
-    >Search</ion-button
-  >
+  <ion-button (click)="setCountry()" expand="block">Search</ion-button>
 </ion-content>
