@@ -8,7 +8,7 @@ export class MyHttpService {
   constructor() {}
 
   public async get(options: HttpOptions) {
-    console.log(options.url);
+    console.log('httpService', options.url);
     return await CapacitorHttp.get(options);
   }
 }
