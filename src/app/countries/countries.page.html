@@ -18,7 +18,10 @@
         expand="block"
         >News</ion-button
       >
-      <ion-button [routerLink]="['/weather']" expand="block"
+      <ion-button
+        (click)="weatherPage(country)"
+        [routerLink]="['/weather']"
+        expand="block"
         >Weather</ion-button
       >
     </ion-card-content>

@@ -1,13 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>weather</ion-title>
+    <ion-title>Weather for {{capital}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">weather</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card *ngIf="weatherData.main">
+    <img *ngIf="weatherIconUrl" [src]="weatherIconUrl" alt="Weather Icon" />
+    <ion-card-header>
+      <ion-card-title>{{ weatherData.weather[0].description }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>{{weatherData.main.temp}} {{unit}}</ion-card-content>
+  </ion-card>
 </ion-content>

@@ -44,6 +44,11 @@ export class HomePage {
   constructor(private mds: MyDataService, private router: Router) {}
 
   async setCountry() {
+    if (this.newCountry == '' || null) {
+      console.log('No country has been selected yet!');
+      alert('No country selected yet!');
+      return;
+    }
     await this.mds.set('country', this.newCountry);
     this.router.navigate(['/countries']);
   }

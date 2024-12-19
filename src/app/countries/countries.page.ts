@@ -65,8 +65,14 @@ export class CountriesPage implements OnInit {
   }
 
   async newsPage(country: any) {
-    console.log(country.cca2);
+    //console.log(country.cca2);
     await this.mds.set('cca2', country.cca2);
     console.log(this.mds.get('cca2'));
+  }
+
+  async weatherPage(country: any) {
+    await this.mds.set('capital', country.capital[0]);
+    await this.mds.set('latlng', country.latlng);
+    console.log(this.mds.get('capital:'));
   }
 }

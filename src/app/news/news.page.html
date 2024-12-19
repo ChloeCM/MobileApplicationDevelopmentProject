@@ -1,16 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>News for Country</ion-title>
+    <ion-title>News for {{country}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <p *ngIf="!displayNews">No News found for {{ country}}</p>
   <ion-card *ngFor="let news of newsData">
     <img src="{{ news.image_url}}" />
     <ion-card-header>
       <ion-card-title>{{ news.title }}</ion-card-title>
     </ion-card-header>
-
     <ion-card-content> {{ news.description }} </ion-card-content>
   </ion-card>
 </ion-content>

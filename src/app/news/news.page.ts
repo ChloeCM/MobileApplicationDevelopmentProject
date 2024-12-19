@@ -11,10 +11,14 @@ import {
   IonCardTitle,
   IonCardSubtitle,
   IonCardContent,
+  IonButtons,
+  IonButton,
+  IonIcon,
 } from '@ionic/angular/standalone';
 import { MyHttpService } from '../services/my-http.service';
 import { HttpOptions } from '@capacitor/core';
 import { MyDataService } from '../services/my-data.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-news',
@@ -33,41 +37,27 @@ import { MyDataService } from '../services/my-data.service';
     IonCardTitle,
     IonCardSubtitle,
     IonCardContent,
+    IonButtons,
+    IonButton,
+    IonIcon,
+    RouterLink,
   ],
 })
 export class NewsPage implements OnInit {
-  // selectedCountry: string = '';
-  //   newUrl: string = '';
-  //   countryData: any;
-  //   options: HttpOptions = {
-  //     url: 'https://restcountries.com/v3.1/name/',
-  //   };
-
-  //   constructor(private mds: MyDataService, private mhs: MyHttpService) {}
-
-  //   ngOnInit() {
-  //     this.getCountry();
-  //   }
-
-  //   async getCountry() {
-  //     this.selectedCountry = await this.mds.get('country');
-  //     this.options.url = this.options.url.concat(this.selectedCountry);
-  //     let result = await this.mhs.get(this.options);
-  //     this.countryData = result.data;
-  //     console.log(JSON.stringify(this.countryData));
   constructor(private mhs: MyHttpService, private mds: MyDataService) {}
+  displayNews: boolean = false;
   newsData: any = [];
+  country: string = '';
   options: HttpOptions = {
-    url: 'https://newsdata.io/api/1/latest?apikey=pub_6182620d5deadc7e73c0a7ff6b237b6a00533&q=',
+    url: 'https://newsdata.io/api/1/latest?apikey=pub_6182620d5deadc7e73c0a7ff6b237b6a00533&country=',
   };
 
-  ngOnInit() {}
-
-  ionViewWillEnter() {
+  ngOnInit() {
     this.initaliseData();
   }
 
   async initaliseData() {
+    this.country = await this.mds.get('country');
     await this.updateUrl();
     await this.getCountry();
   }
@@ -75,6 +65,7 @@ export class NewsPage implements OnInit {
   async getCountry() {
     let result = await this.mhs.get(this.options);
     this.newsData = result.data.results;
+    this.displayNews = true;
     console.log(this.newsData);
   }
 
